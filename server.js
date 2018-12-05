@@ -41,6 +41,25 @@ app.get('/hent', function(req,res){
 
 })
 
+app.post('/opret', function(req, res){
+    con.connect(function(err) {  
+        if (err) throw err; //Tjekker om der er nogle errors, throw.
+        console.log("Connected!"); // Logger hvis connected.
+        con.query("use testeksamen;", function (err, result) { //Brug schema fra mysql db.
+            if (err) throw err; //Tjekker for fejl, throw errors.
+            console.log("connected"); // Logger hvis connected.
+          });
+
+          con.query("insert into ikeapaere(onoff, normielStrom, aktuelStrom, lysintensitet, farve, unikID, hwID, swID) values("+req.body.onoff+", "+req.body.normielStrom+", "+req.body.aktuelStrom+", "+req.body.lysintensitet+", '"+req.body.farve+"', '"+req.body.unikID+"', '"+req.body.hwID+"', '"+req.body.swID+"');", 
+          function (err, result) { //Vælg alt fra table "ikeapare"
+          if (err) throw err;//Tjekker for fejl, throw errors.
+          console.log("selected *"); //Logger alt der er selected.
+        res.send("result fdsfsdg"); //Det er det den sender når man går ind på /opret
+        });
+      });
+
+})
+
 //7. Starter serveren på på 8088
 http.listen(8088, function(){
     console.log('listening on *:8088');
